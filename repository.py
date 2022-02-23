@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 from select import select
 from turtle import title
 from psycopg2 import  psycopg2
-=======
->>>>>>> c6adb7f07b848bae3ea85557f90dc4252fba99b4
 from models import BookModel, ReviewModel
 
 book1 = BookModel("The Hobbit", "J R R Tolkien", 1)
@@ -13,7 +10,6 @@ review2 = ReviewModel("I hated it", 2)
 review3 = ReviewModel("an even more timeless classic", 3)
 review4 = ReviewModel("I hated it even more", 4)
 
-<<<<<<< HEAD
 HOST = '12.0.0.1'
 DATABASE = 'bookreactions'
 DB_PORT = 5432
@@ -40,32 +36,20 @@ class Repository():
         except Exception as error:
             
         finally:        
-=======
-class Repository():
-    def books_get_all(self):
-        return [book1, book2]
->>>>>>> c6adb7f07b848bae3ea85557f90dc4252fba99b4
     
     def book_get_by_id(self, book_id):
         books = [book1, book2]
         return next((x for x in books if x.bookId == book_id), None)
     
-<<<<<<< HEAD
     def reviews_get_all(self):
         return [review1, review2, review3, review4]
     
-=======
->>>>>>> c6adb7f07b848bae3ea85557f90dc4252fba99b4
     def reviews_get_by_book_id(self, book_id):
         reviews = [review1, review2, review3, review4]
         return [x for x in reviews if x.book_id == book_id ]
 
     def review_add(self,data):
-<<<<<<< HEAD
         return ReviewModel(data['content'], data['bookId'], 1)
     
     def book_add(self, data):
         return BookModel(data['title'], data['cover'], 3, data['author'])
-=======
-        return ReviewModel(data['content'], data['bookId'], 1)
->>>>>>> c6adb7f07b848bae3ea85557f90dc4252fba99b4
