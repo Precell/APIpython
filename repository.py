@@ -1,3 +1,6 @@
+from select import select
+from turtle import title
+from psycopg2 import  psycopg2
 from models import BookModel, ReviewModel
 
 book1 = BookModel("The Hobbit", "J R R Tolkien", 1)
@@ -7,9 +10,32 @@ review2 = ReviewModel("I hated it", 2)
 review3 = ReviewModel("an even more timeless classic", 3)
 review4 = ReviewModel("I hated it even more", 4)
 
+HOST = '12.0.0.1'
+DATABASE = 'bookreactions'
+DB_PORT = 5432
+USER = 'postgres'
+PASSWORD = 'precell'
+
 class Repository():
+    def get_db(self):
+        return psycopg2.Connect(
+            host = HOST,
+            database = DATABASE,
+            port = DB_PORT,
+            user = USER,
+            password = PASSWORD
+        )
     def books_get_all(self):
-        return [book1, book2]
+        conn = None
+        try:
+            conn = self.get_db()
+            if (conn):
+              ps_cursor = conn.cursor()
+              ps_cursor.execute("select title, author, bookId, cover")
+              book_records = ps_cursor.fetchall()  
+        except Exception as error:
+            
+        finally:        
     
     def book_get_by_id(self, book_id):
         books = [book1, book2]
