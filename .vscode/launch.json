@@ -11,23 +11,19 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
-                "FLASK_ENV": "development"
+                "FLASK_ENV": "development",
+                "HOST": "127.0.0.1",
+                "DATABASE": "bookreactions",
+                "DB_PORT":"5432",
+                "USER":"postgres",
+                "PASSWORD": "precell",
+                "BASE_URL": "/api/bookreactions"
             },
             "args": [
                 "run",
                 "--no-debugger"
             ],
             "jinja": true
-<<<<<<< HEAD
-=======
-        },
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
->>>>>>> c6adb7f07b848bae3ea85557f90dc4252fba99b4
         }
     ]
 }
