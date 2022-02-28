@@ -3,7 +3,7 @@ from select import select
 from turtle import title
 import psycopg2
 from models import BookModel, ReviewModel
-import os
+from flask import current_app, g
 
 book1 = BookModel("The Hobbit", "J R R Tolkien", 1)
 book2 = BookModel("The Lord Of The Rings", "J R R Tolkien", 2)
@@ -12,21 +12,12 @@ review2 = ReviewModel("I hated it", 2)
 review3 = ReviewModel("an even more timeless classic", 3)
 review4 = ReviewModel("I hated it even more", 4)
 
-HOST = os.environ.get("HOST")
-DATABASE = os.environ.get("DATABASE")
-DB_PORT = os.environ.get("DB_PORT")
-USER = os.environ.get("USER")
-PASSWORD = os.environ.get("PASSWORD")
 
 class Repository():
     def get_db(self):
-        return psycopg2.Connect(
-            host = HOST,
-            database = DATABASE,
-            port = DB_PORT,
-            user = USER,
-            password = PASSWORD
-        )
+       if 'db' not in g:
+           g.db = current_app.config['pSQL_pool'].getconn()
+           return g.db
     def books_get_all(self):
         conn = None
         try:
@@ -40,15 +31,14 @@ class Repository():
                   book_list.append(BookModel(row[0],row[1],row[2]))
                   
               ps_cursor.close()
-            return book1          
+            return book_list          
         except Exception as error:
             print(error)  
         finally:
             if conn is not None:
                 conn.close()
                 
-    def book_add(self, data):
-            
+    def book_add(self, data):    
         conn = None
         try:
             conn = self.get_db()
@@ -79,13 +69,40 @@ class Repository():
             if(conn):
                 ps_cursor = conn.cursor()
                 ps_cursor.execute(
-                    ""
-                )  
+                    "select content, bookId,"
+                ) 
+                review_records = ps_cursor.fetchall()
+                book_review = []
+                for row in review_records:
+                    book_review.append(ReviewModel(row[0], row[1]))
+            return book_review
+        except Exception as error:
+            print(error)     
+        finally:
+            if conn is None:
+                conn.close()
+                              
     def reviews_get_by_book_id(self, book_id):
         reviews = [review1, review2, review3, review4]
         return [x for x in reviews if x.book_id == book_id ]
 
     def review_add(self,data):
-        return ReviewModel(data['content'], data['bookId'], 1)
-    
+        conn = None
+        try:
+            conn = self.get_db()
+            if (conn):
+              ps_cursor = conn.cursor()
+              ps_cursor.execute(
+                  "INSERT INTO review(content) VALUES(%s) RETURNING bookId",
+                  (data['content'])
+              )
+              conn.commit()
+              id = ps_cursor.fetchone()[0]
+              ps_cursor.close()          
+              review = (data['content'])
+        except Exception as error:
+            print(error)  
+        finally:
+            if conn is not None:
+                conn.close()
   
