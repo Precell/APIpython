@@ -12,11 +12,11 @@
             "env": {
                 "FLASK_APP": "app.py",
                 "FLASK_ENV": "development",
-                "HOST": "127.0.0.1",
-                "DATABASE": "bookreactions",
+                "HOST": "35.222.209.216",
+                "DATABASE": "Precell_bookreactions",
                 "DB_PORT":"5432",
-                "USER":"postgres",
-                "PASSWORD": "precell",
+                "USER":"Precell",
+                "PASSWORD": "",
                 "BASE_URL": "/api/bookreactions",
                 "MIN":"1",
                 "MAX":"5"
