@@ -44,6 +44,7 @@ class Repository():
             id = ps_cursor.fetchone()[0]
             ps_cursor.close()          
             book = BookModel(data['title'], id, data['author'], data['cover'])
+        return book    
      
     def book_get_by_id(self, book_id):
         id = book_id
@@ -56,31 +57,18 @@ class Repository():
             book = BookModel(book_record[0], book_record[1],book_record[2],book_record[3])
         return book
     
-    def reviews_get_all(self):
-        conn = self.get_db
+    def reviews_get_by_book_id(self, book_id):
+        conn = self.get_db()
         if(conn):
             ps_cursor = conn.cursor()
             ps_cursor.execute(
-                "select content, bookId from review"
+                f'select content, bookId from review where bookId = {book_id}'
             ) 
             review_records = ps_cursor.fetchall()
             book_review = []
             for row in review_records:
                 book_review.append(ReviewModel(row[0], row[1]))
-        return book_review
-    
-                              
-    def reviews_get_by_book_id(self, book_id):
-        conn = self.get_db
-        if(conn):
-            ps_cursor = conn.cursor()
-            ps_cursor.execute(
-                f'select content, bookId from review where bookId == {int(book_id)}'
-            ) 
-            review_record = ps_cursor.fetchone()
-            review = []
-            review.append(ReviewModel(review_record[0], review_record[1]))
-        return review
+        return book_review              
             
     def review_add(self,data):
         conn = self.get_db()
@@ -96,4 +84,3 @@ class Repository():
             review = (ReviewModel(data['content'], id))
             return review
     
-  

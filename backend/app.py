@@ -26,7 +26,7 @@ app.config['pSQL_pool'] = pool.SimpleConnectionPool(MIN, MAX,
 api.add_resource(BookList, f'{BASE_URL}/Books/')
 api.add_resource(Book, f'{BASE_URL}/Books/<book_id>')
 api.add_resource(ReviewsList, f'{BASE_URL}/Reviews/<book_id>')
-api.add_resource(Review, f'{BASE_URL}/Reviews/')
+api.add_resource(Review, f'{BASE_URL}/Review/<review_id>')
 
 @app.teardown_appcontext
 def close_conn(e):
