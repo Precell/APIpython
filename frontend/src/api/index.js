@@ -13,8 +13,8 @@ export const fetchAllBooks = () => {
 
 export const addBook = (book) => {
     return fetch(url + 'Books', {
-        method:'POST',
-        mode:'cors',
+        method: 'POST',
+        mode: 'cors',
         headers: headers,
         body: JSON.stringify(book)
     })

@@ -13,16 +13,19 @@ USER = os.environ.get("USER")
 PASSWORD = os.environ.get("PASSWORD")
 MIN = os.environ.get("MIN")
 MAX = os.environ.get('MAX')
+
 app = Flask(__name__)
 CORS(app)
 
-api = Api(app)
 app.config['pSQL_pool'] = pool.SimpleConnectionPool(MIN, MAX,
-                                                    host = HOST,
-                                                    database = DATABASE,
-                                                    port = DB_PORT,
-                                                    user = USER,
-                                                    password = PASSWORD)
+                                                    host=HOST,
+                                                    database=DATABASE,
+                                                    port=DB_PORT,
+                                                    user=USER,
+                                                    password=PASSWORD)
+
+api = Api(app)
+
 api.add_resource(BookList, f'{BASE_URL}/Books/')
 api.add_resource(Book, f'{BASE_URL}/Books/<book_id>')
 api.add_resource(ReviewsList, f'{BASE_URL}/Reviews/<book_id>')
@@ -34,5 +37,6 @@ def close_conn(e):
     if db is not None:
         app.config['pSQL_pool'].putconn(db)
         print('released connection back to pool')
+
 if __name__ == '__main__':
     app.run(debug=True)
