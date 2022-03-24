@@ -1,4 +1,4 @@
-from flask import g, Flask  
+from flask import Flask, g  
 from flask_restful import Api
 from routes import BookList, Book, ReviewsList, Review
 from flask_cors import CORS
@@ -26,7 +26,7 @@ app.config['pSQL_pool'] = pool.SimpleConnectionPool(MIN, MAX,
 
 api = Api(app)
 
-api.add_resource(BookList, f'{BASE_URL}/Books/')
+api.add_resource(BookList, f'{BASE_URL}/Books')
 api.add_resource(Book, f'{BASE_URL}/Books/<book_id>')
 api.add_resource(ReviewsList, f'{BASE_URL}/Reviews/<book_id>')
 api.add_resource(Review, f'{BASE_URL}/Review/<review_id>')
