@@ -1,6 +1,6 @@
-from pydoc import classname
-from urllib import request
-from webbrowser import get
+# from pydoc import classname
+# from urllib import request
+# from webbrowser import get
 from flask_restful import Resource
 from repository import Repository
 from flask import request
@@ -25,9 +25,6 @@ class Book(Resource):
         
     def get(self, book_id):
         return self.repo.book_get_by_id(int(book_id)).__dict__
-    
-    
-    
     
 class ReviewsList(Resource):
     def __init__(self, repo = repository):
