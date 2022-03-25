@@ -43,7 +43,7 @@ class Repository():
             conn.commit()
             id = ps_cursor.fetchone()[0]
             ps_cursor.close()          
-            book = BookModel(data['title'], id, data['author'], data['cover'])
+            book = BookModel(data['title'], data['author'], data['cover'], id)
         return book    
      
     def book_get_by_id(self, book_id):
